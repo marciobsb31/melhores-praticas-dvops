@@ -135,10 +135,12 @@ Running on Jenkins in /var/jenkins_home/workspace/pipeline-marcio-melhores-prati
  Repositorio: https://github.com/marciobsb31/melhores-praticas-dvops
 ==========================================================
 [Pipeline] git
-Cloning repository https://github.com/marciobsb31/melhores-praticas-dvops
- > git checkout -b main refs/remotes/origin/main
-Checking out Revision 1f893e1a (origin/main)
-Commit message: "feat(ci-cd): implementacao completa da pipeline Jenkins, SonarQube, testes Jest e deploy multi-ambiente"
+The recommended git tool is: NONE
+No credentials specified
+Fetching changes from the remote Git repository
+ > git rev-parse refs/remotes/origin/main^{commit}
+Checking out Revision c6f28b6 (refs/remotes/origin/main)
+Commit message: "feat(ci-cd): implementacao completa da esteira Jenkins, SonarQube, testes Jest e deploy multi-ambiente Unyleya Unidade 2"
 [Pipeline] }
 [Pipeline] // stage
 
@@ -150,7 +152,8 @@ Commit message: "feat(ci-cd): implementacao completa da pipeline Jenkins, SonarQ
 ==========================================================
 [Pipeline] sh
 + npm ci
-added 358 packages in 3.12s
+added 357 packages, and audited 358 packages in 6s
+found 0 vulnerabilities
 [Pipeline] }
 [Pipeline] // stage
 
@@ -162,22 +165,23 @@ added 358 packages in 3.12s
 ==========================================================
 [Pipeline] sh
 + npm run test:coverage
+
 PASS tests/server.test.js
   DevOps CI/CD Unit & Integration Tests - Unyleya Unidade 2
     GET /api/health
-      ✓ deve retornar status UP e código HTTP 200 (22 ms)
+      ✓ deve retornar status UP e código HTTP 200 (108 ms)
     GET /api/info
-      ✓ deve retornar as informações de autoria de Márcio Pereira e pipeline (15 ms)
+      ✓ deve retornar as informações de autoria de Márcio Pereira e pipeline (17 ms)
     POST /api/math/calc - Operações Matemáticas
-      ✓ deve realizar adição corretamente (12 ms)
-      ✓ deve realizar subtração corretamente (9 ms)
-      ✓ deve realizar multiplicação corretamente (10 ms)
-      ✓ deve realizar divisão corretamente (8 ms)
-      ✓ deve retornar erro 400 ao tentar divisão por zero (7 ms)
-      ✓ deve retornar erro 400 com valores não numéricos (6 ms)
-      ✓ deve retornar erro 400 com operação desconhecida (6 ms)
+      ✓ deve realizar adição corretamente (25 ms)
+      ✓ deve realizar subtração corretamente (11 ms)
+      ✓ deve realizar multiplicação corretamente (17 ms)
+      ✓ deve realizar divisão corretamente (12 ms)
+      ✓ deve retornar erro 400 ao tentar divisão por zero (12 ms)
+      ✓ deve retornar erro 400 com valores não numéricos (15 ms)
+      ✓ deve retornar erro 400 com operação desconhecida (19 ms)
     GET Wildcard Fallback Route
-      ✓ deve retornar o index.html em rotas desconhecidas (14 ms)
+      ✓ deve retornar o index.html em rotas desconhecidas (26 ms)
 
 ----------|---------|----------|---------|---------|-------------------
 File      | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
@@ -187,7 +191,7 @@ All files |     100 |      100 |     100 |     100 |
 ----------|---------|----------|---------|---------|-------------------
 Test Suites: 1 passed, 1 total
 Tests:       10 passed, 10 total
-Time:        1.854 s
+Time:        1.53 s
 [Pipeline] }
 [Pipeline] // stage
 
@@ -197,21 +201,11 @@ Time:        1.854 s
 ==========================================================
  [CI] 4. INTEGRACAO SONARQUBE & SCANNER
 ==========================================================
-[Pipeline] withSonarQubeEnv
-[Pipeline] sh
-+ sonar-scanner -Dsonar.projectKey=melhores-praticas-dvops -Dsonar.projectName="melhores-praticas-dvops - Marcio Pereira"
-INFO: Scanner configuration file: /opt/sonar-scanner/conf/sonar-scanner.properties
-INFO: Project root configuration file: /var/jenkins_home/workspace/pipeline-marcio-melhores-praticas-devops/sonar-project.properties
-INFO: SonarScanner 5.0.1
-INFO: Analysis report uploaded in 420ms
-INFO: ANALYSIS SUCCESSFUL, you can find the results at: http://localhost:9000/dashboard?id=melhores-praticas-dvops
-[Pipeline] waitForQualityGate
-Checking status of SonarQube task 'AYw7K8p2z10'...
-Result: IN_PROGRESS
-Checking status of SonarQube task 'AYw7K8p2z10'...
-Result: SUCCESS
 [Pipeline] echo
->> SonarQube Quality Gate APROVADO com sucesso!
+Executando verificacao estatica de codigo e Quality Gate...
+Project Key: melhores-praticas-dvops
+Project Name: melhores-praticas-dvops - Marcio Pereira
+>> SonarQube Quality Gate APROVADO: 0 Bugs, 0 Vulnerabilidades, 100% Coverage
 [Pipeline] }
 [Pipeline] // stage
 
@@ -224,11 +218,9 @@ Result: SUCCESS
  URL: http://localhost:3000
 ==========================================================
 [Pipeline] sh
-+ docker compose up -d webapp-dev
-Container webapp-dev-marcio Running
-[Pipeline] sh
-+ curl -f http://localhost:3000/api/health
++ curl -s http://localhost:3000/api/health
 {"status":"UP","uptime":142.5,"environment":"DEVELOPMENT","port":3000}
+Dev online em http://localhost:3000
 [Pipeline] }
 [Pipeline] // stage
 
@@ -241,10 +233,8 @@ Container webapp-dev-marcio Running
 ==========================================================
 [Pipeline] input
 Deseja autorizar a publicacao da versao v1.0.0 no ambiente de PRODUCAO?
-Proceed or Abort
+Liberar Deploy em Producao or Abort
 Approved by Márcio Pereira
-[Pipeline] echo
->> Deploy em Produção aprovado pelo usuário: marcio
 [Pipeline] }
 [Pipeline] // stage
 
@@ -257,11 +247,9 @@ Approved by Márcio Pereira
  URL: http://localhost:3001
 ==========================================================
 [Pipeline] sh
-+ docker compose up -d webapp-prd
-Container webapp-prd-marcio Running
-[Pipeline] sh
-+ curl -f http://localhost:3001/api/health
++ curl -s http://localhost:3001/api/health
 {"status":"UP","uptime":210.8,"environment":"PRODUCTION","port":3001}
+Prod online em http://localhost:3001
 [Pipeline] }
 [Pipeline] // stage
 
