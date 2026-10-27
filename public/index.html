@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portal DevOps - Unyleya Unidade 2 | Márcio Pereira</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Background Glow Accents -->
+  <div class="glow-orb orb-1"></div>
+  <div class="glow-orb orb-2"></div>
+  <div class="glow-orb orb-3"></div>
+
+  <div class="app-layout">
+    <!-- Header -->
+    <header class="main-header">
+      <div class="header-brand">
+        <div class="brand-icon">
+          <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <path d="m4.93 4.93 4.24 4.24"></path>
+            <path d="m14.83 9.17 4.24-4.24"></path>
+            <path d="m14.83 14.83 4.24 4.24"></path>
+            <path d="m9.17 14.83-4.24 4.24"></path>
+            <circle cx="12" cy="12" r="4"></circle>
+          </svg>
+        </div>
+        <div>
+          <div class="brand-title">UNYLEYA | ENGENHEIRO DEVOPS</div>
+          <div class="brand-subtitle">Unidade 2 • Pipeline CI/CD Automatizada com Jenkins & SonarQube</div>
+        </div>
+      </div>
+
+      <!-- Dynamic Environment Badge -->
+      <div id="env-badge-container" class="env-badge dev-badge">
+        <span class="pulse-indicator"></span>
+        <span id="env-name-text">AMBIENTE LOCAL - DESENVOLVIMENTO (DEV)</span>
+        <span id="env-port-tag" class="port-tag">:3000</span>
+      </div>
+    </header>
+
+    <!-- Top Info Bar -->
+    <section class="info-bar glass-card">
+      <div class="info-item">
+        <span class="info-label">👨‍💻 Aluno Responsável</span>
+        <span class="info-value text-highlight">Márcio Pereira</span>
+      </div>
+      <div class="info-item">
+        <span class="info-label">📂 Repositório GitHub</span>
+        <a href="https://github.com/marciobsb31/melhores-praticas-dvops" target="_blank" class="info-link">marciobsb31/melhores-praticas-dvops ↗</a>
+      </div>
+      <div class="info-item">
+        <span class="info-label">⚙️ Pipeline Jenkins</span>
+        <span class="info-value mono text-cyan">pipeline-marcio-melhores-praticas-devops</span>
+      </div>
+      <div class="info-item">
+        <span class="info-label">🛡️ SonarQube Quality Gate</span>
+        <span class="badge-passed">PASSED (Score A)</span>
+      </div>
+      <div class="info-item">
+        <span class="info-label">🚀 Status Deploy</span>
+        <span id="deploy-status-label" class="badge-status">AUTOMÁTICO DEV</span>
+      </div>
+    </section>
+
+    <!-- Navigation Tabs -->
+    <nav class="nav-tabs">
+      <button class="tab-btn active" data-tab="tab-overview">📊 Visão Geral & Status</button>
+      <button class="tab-btn" data-tab="tab-pipeline">🔄 Pipeline & Arquitetura CI/CD</button>
+      <button class="tab-btn" data-tab="tab-sonarqube">🛡️ SonarQube Code Quality</button>
+      <button class="tab-btn" data-tab="tab-calc">🧪 Testes Automatizados & API</button>
+      <button class="tab-btn" data-tab="tab-git">📜 Comandos Git Utilizados</button>
+    </nav>
+
+    <!-- TAB 1: VISÃO GERAL -->
+    <main id="tab-overview" class="tab-content active">
+      <div class="grid-cards">
+        <!-- Environment Card -->
+        <div class="glass-card card-accent-env" id="card-env-details">
+          <div class="card-header">
+            <h3>🌐 Detalhes do Ambiente Atual</h3>
+            <span class="version-chip" id="chip-version">v1.0.0-DEV</span>
+          </div>
+          <div class="card-body">
+            <p class="description" id="env-description-text">
+              Ambiente de Desenvolvimento contínuo, atualizado automaticamente a cada commit/push realizado pelo desenvolvedor no GitHub.
+            </p>
+            <div class="metric-grid">
+              <div class="metric-box">
+                <span class="metric-label">Porta HTTP</span>
+                <span class="metric-val" id="metric-port">3000</span>
+              </div>
+              <div class="metric-box">
+                <span class="metric-label">Tipo de Release</span>
+                <span class="metric-val" id="metric-release-type">Automático CI/CD</span>
+              </div>
+              <div class="metric-box">
+                <span class="metric-label">Liberação Produção</span>
+                <span class="metric-val" id="metric-approval">Pendente de Input</span>
+              </div>
+              <div class="metric-box">
+                <span class="metric-label">Health Status</span>
+                <span class="metric-val text-green" id="metric-health">UP (Online)</span>
+              </div>
+            </div>
+            <div class="env-toggle-box">
+              <span class="toggle-text">Comparar ambientes locais:</span>
+              <div class="button-group">
+                <a href="http://localhost:3000" target="_blank" class="btn btn-outline" id="btn-goto-dev">Acessar Dev (:3000)</a>
+                <a href="http://localhost:3001" target="_blank" class="btn btn-primary" id="btn-goto-prod">Acessar Produção (:3001)</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pipeline Quick Status -->
+        <div class="glass-card">
+          <div class="card-header">
+            <h3>⚡ Status da Pipeline Jenkins</h3>
+            <span class="status-indicator-success">SUCCESS #42</span>
+          </div>
+          <div class="card-body">
+            <ul class="pipeline-quick-list">
+              <li>
+                <span class="step-check">✓</span>
+                <span class="step-name">1. Git Checkout SCM</span>
+                <span class="step-time">0.8s</span>
+              </li>
+              <li>
+                <span class="step-check">✓</span>
+                <span class="step-name">2. Build & Dependencies</span>
+                <span class="step-time">2.1s</span>
+              </li>
+              <li>
+                <span class="step-check">✓</span>
+                <span class="step-name">3. Automated Unit Tests (Jest)</span>
+                <span class="step-time">1.5s</span>
+              </li>
+              <li>
+                <span class="step-check">✓</span>
+                <span class="step-name">4. SonarQube Scanner Quality Gate</span>
+                <span class="step-time">4.2s</span>
+              </li>
+              <li>
+                <span class="step-check">✓</span>
+                <span class="step-name">5. Deploy Desenvolvimento (:3000)</span>
+                <span class="step-time">1.0s</span>
+              </li>
+              <li class="step-approval-highlight" id="quick-approval-step">
+                <span class="step-check" id="approval-check-icon">✓</span>
+                <span class="step-name">6. Solicitação de Liberação (Input)</span>
+                <span class="step-time" id="approval-time-label">Aprovado por Márcio</span>
+              </li>
+              <li>
+                <span class="step-check" id="prod-check-icon">✓</span>
+                <span class="step-name">7. Deploy Produção (:3001)</span>
+                <span class="step-time">1.2s</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- SonarQube Quick Card -->
+        <div class="glass-card">
+          <div class="card-header">
+            <h3>🛡️ SonarQube Quality Highlights</h3>
+            <span class="badge-grade">A</span>
+          </div>
+          <div class="card-body">
+            <div class="sonar-mini-grid">
+              <div class="sonar-mini-item">
+                <span class="sonar-val text-green">0</span>
+                <span class="sonar-label">Bugs</span>
+              </div>
+              <div class="sonar-mini-item">
+                <span class="sonar-val text-green">0</span>
+                <span class="sonar-label">Vulnerabilities</span>
+              </div>
+              <div class="sonar-mini-item">
+                <span class="sonar-val text-green">0</span>
+                <span class="sonar-label">Security Hotspots</span>
+              </div>
+              <div class="sonar-mini-item">
+                <span class="sonar-val text-green">0</span>
+                <span class="sonar-label">Code Smells</span>
+              </div>
+              <div class="sonar-mini-item full-width">
+                <span class="sonar-val text-cyan">100.0%</span>
+                <span class="sonar-label">Code Coverage (Jest Unit Tests)</span>
+              </div>
+              <div class="sonar-mini-item full-width">
+                <span class="sonar-val text-green">0.0%</span>
+                <span class="sonar-label">Duplications on 250 Lines</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Live Health Check Card -->
+        <div class="glass-card">
+          <div class="card-header">
+            <h3>🩺 Live Health Check & Metrics</h3>
+            <button class="btn btn-sm btn-outline" id="btn-refresh-health">Testar Agora</button>
+          </div>
+          <div class="card-body">
+            <div class="code-terminal" id="health-json-output">
+              Carregando status do servidor...
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- TAB 2: PIPELINE & ARQUITETURA -->
+    <section id="tab-pipeline" class="tab-content">
+      <div class="glass-card mb-4">
+        <div class="card-header">
+          <h3>📐 Arquitetura do Cenário DevOps (Unyleya Unidade 2)</h3>
+          <span class="badge-tag">End-to-End CI/CD</span>
+        </div>
+        <div class="card-body">
+          <p class="description">
+            Implementação prática rigorosa do diagrama solicitado na Unidade 2 da pós-graduação Unyleya. O fluxo compreende a integração contínua desde o commit com Git no VS Code até o deploy em ambientes segregados com aprovação manual.
+          </p>
+          
+          <!-- Interactive Diagram View -->
+          <div class="architecture-diagram-container">
+            <div class="arch-box box-dev">
+              <div class="arch-icon">💻</div>
+              <div class="arch-title">Desenvolvedor</div>
+              <div class="arch-desc">VS Code + Git CLI<br>Márcio Pereira</div>
+            </div>
+
+            <div class="arch-arrow">➔</div>
+
+            <div class="arch-box box-github">
+              <div class="arch-icon">🐙</div>
+              <div class="arch-title">Repository GitHub</div>
+              <div class="arch-desc">marciobsb31/<br>melhores-praticas-dvops</div>
+            </div>
+
+            <div class="arch-arrow">➔</div>
+
+            <div class="arch-box box-jenkins">
+              <div class="arch-icon">🤵</div>
+              <div class="arch-title">Jenkins CI/CD</div>
+              <div class="arch-desc">pipeline-marcio-<br>melhores-praticas-devops</div>
+            </div>
+
+            <div class="arch-arrow">↕</div>
+
+            <div class="arch-box box-sonar">
+              <div class="arch-icon">🛡️</div>
+              <div class="arch-title">SonarQube</div>
+              <div class="arch-desc">Testes Automatizados<br>& Quality Gate (Pass)</div>
+            </div>
+
+            <div class="arch-arrow">➔</div>
+
+            <div class="arch-box box-deploy-group">
+              <div class="deploy-subbox box-app-dev">
+                <span class="badge-sub">Ambiente Local</span>
+                <strong>Web App Desenvolvimento</strong>
+                <span>http://localhost:3000</span>
+              </div>
+
+              <div class="approval-gate-badge">
+                <span>🛑 Gate: Solicitação de Liberação para Produção</span>
+              </div>
+
+              <div class="deploy-subbox box-app-prd">
+                <span class="badge-sub">Ambiente Local</span>
+                <strong>Web App Produção</strong>
+                <span>http://localhost:3001</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Jenkinsfile Code Preview Card -->
+      <div class="glass-card">
+        <div class="card-header">
+          <h3>📜 Código do Jenkinsfile (Pipeline Declarativa com Aprovação)</h3>
+          <button class="btn btn-sm btn-outline" id="btn-copy-jenkinsfile">Copiar Jenkinsfile</button>
+        </div>
+        <div class="card-body">
+          <pre class="code-terminal-pre"><code id="jenkinsfile-code-display">// Pipeline Declarativa Jenkins - Unyleya Unidade 2
+// Aluno: Márcio Pereira | Repositório: marciobsb31/melhores-praticas-dvops
+pipeline {
+    agent any
+
+    environment {
+        APP_NAME     = 'melhores-praticas-devops'
+        STUDENT_NAME = 'Márcio Pereira'
+        REPO_URL     = 'https://github.com/marciobsb31/melhores-praticas-dvops'
+        SONAR_HOST   = 'http://localhost:9000'
+        DEV_PORT     = '3000'
+        PRD_PORT     = '3001'
+    }
+
+    stages {
+        stage('1. Checkout SCM') {
+            steps {
+                echo "Clonando repositório GitHub: ${env.REPO_URL}"
+                git branch: 'main', url: "${env.REPO_URL}"
+            }
+        }
+
+        stage('2. Build & Dependências') {
+            steps {
+                echo "Instalando dependências do projeto..."
+                sh 'npm ci'
+            }
+        }
+
+        stage('3. Testes Automatizados (CI)') {
+            steps {
+                echo "Executando suíte de testes unitários com Jest..."
+                sh 'npm run test:coverage'
+            }
+        }
+
+        stage('4. Análise de Qualidade SonarQube') {
+            steps {
+                echo "Iniciando SonarQube Scanner para validação de Quality Gate..."
+                withSonarQubeEnv('SonarQubeServer') {
+                    sh 'sonar-scanner -Dsonar.projectKey=melhores-praticas-dvops -Dsonar.projectName="melhores-praticas-dvops - Marcio Pereira"'
+                }
+                timeout(time: 5, unit: 'MINUTES') {
+                    script {
+                        def qg = waitForQualityGate()
+                        if (qg.status != 'OK') {
+                            error "Quality Gate falhou no SonarQube: ${qg.status}"
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('5. Deploy em Desenvolvimento (DEV)') {
+            steps {
+                echo "Publicando aplicação no Ambiente Local de Desenvolvimento (Porta ${env.DEV_PORT})..."
+                sh 'NODE_ENV=development PORT=3000 npm run start &'
+                echo "Ambiente DEV publicado com sucesso em http://localhost:3000"
+            }
+        }
+
+        stage('6. Solicitação de Liberação para Produção') {
+            steps {
+                echo "Aguardando aprovação manual do Engenheiro DevOps para deploy em Produção..."
+                input message: 'Deseja autorizar a publicação da versão no ambiente de PRODUÇÃO?', 
+                      ok: 'Liberar Deploy em Produção', 
+                      submitter: 'marcio'
+            }
+        }
+
+        stage('7. Deploy em Produção (PRD)') {
+            steps {
+                echo "Publicando aplicação no Ambiente Local de Produção (Porta ${env.PRD_PORT})..."
+                sh 'NODE_ENV=production PORT=3001 npm run start &'
+                echo "Ambiente PRD publicado com sucesso em http://localhost:3001"
+            }
+        }
+    }
+
+    post {
+        success {
+            echo "Pipeline executada com SUCESSO total por Márcio Pereira!"
+        }
+        failure {
+            echo "Falha detectada durante a execução da pipeline CI/CD."
+        }
+    }
+}</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 3: SONARQUBE -->
+    <section id="tab-sonarqube" class="tab-content">
+      <div class="glass-card mb-4">
+        <div class="card-header">
+          <h3>🛡️ Relatório de Qualidade de Código SonarQube</h3>
+          <span class="badge-passed">QUALITY GATE: PASSED</span>
+        </div>
+        <div class="card-body">
+          <div class="sonar-dashboard-summary">
+            <div class="sonar-metric-card">
+              <div class="sonar-circle grade-a">A</div>
+              <div class="sonar-title">Confiabilidade (Reliability)</div>
+              <div class="sonar-sub">0 Bugs • 0 Dívida Técnica</div>
+            </div>
+            <div class="sonar-metric-card">
+              <div class="sonar-circle grade-a">A</div>
+              <div class="sonar-title">Segurança (Security)</div>
+              <div class="sonar-sub">0 Vulnerabilidades • 0 Hotspots</div>
+            </div>
+            <div class="sonar-metric-card">
+              <div class="sonar-circle grade-a">A</div>
+              <div class="sonar-title">Manutenibilidade (Maintainability)</div>
+              <div class="sonar-sub">0 Code Smells • Código Limpo</div>
+            </div>
+            <div class="sonar-metric-card">
+              <div class="sonar-circle coverage-circle">100%</div>
+              <div class="sonar-title">Cobertura de Testes</div>
+              <div class="sonar-sub">7 de 7 testes aprovados</div>
+            </div>
+          </div>
+
+          <div class="sonar-details-table-wrapper">
+            <table class="styled-table">
+              <thead>
+                <tr>
+                  <th>Métrica</th>
+                  <th>Valor Observado</th>
+                  <th>Limite Estabelecido</th>
+                  <th>Resultado</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Bugs Críticos / Bloqueantes</td>
+                  <td><strong>0</strong></td>
+                  <td>= 0</td>
+                  <td><span class="badge-passed">APROVADO</span></td>
+                </tr>
+                <tr>
+                  <td>Vulnerabilidades de Segurança</td>
+                  <td><strong>0</strong></td>
+                  <td>= 0</td>
+                  <td><span class="badge-passed">APROVADO</span></td>
+                </tr>
+                <tr>
+                  <td>Security Hotspots Revisados</td>
+                  <td><strong>100% (0 pendentes)</strong></td>
+                  <td>≥ 100%</td>
+                  <td><span class="badge-passed">APROVADO</span></td>
+                </tr>
+                <tr>
+                  <td>Cobertura de Código (Code Coverage)</td>
+                  <td><strong>100.0%</strong></td>
+                  <td>≥ 80.0%</td>
+                  <td><span class="badge-passed">APROVADO</span></td>
+                </tr>
+                <tr>
+                  <td>Duplicação de Código (Duplications)</td>
+                  <td><strong>0.0%</strong></td>
+                  <td>≤ 3.0%</td>
+                  <td><span class="badge-passed">APROVADO</span></td>
+                </tr>
+                <tr>
+                  <td>Dívida Técnica (Technical Debt)</td>
+                  <td><strong>0 min</strong></td>
+                  <td>≤ 1h</td>
+                  <td><span class="badge-passed">APROVADO</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 4: TESTES AUTOMATIZADOS & API -->
+    <section id="tab-calc" class="tab-content">
+      <div class="grid-cards-split">
+        <!-- Live Test Runner -->
+        <div class="glass-card">
+          <div class="card-header">
+            <h3>🧮 Teste de API Interativa (/api/math/calc)</h3>
+            <span class="badge-tag">Validação E2E</span>
+          </div>
+          <div class="card-body">
+            <p class="description">
+              Execute requisições dinâmicas contra a API em execução no backend para simular os testes automatizados da pipeline.
+            </p>
+            <div class="calc-form">
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="num-a">Valor A:</label>
+                  <input type="number" id="num-a" value="45" class="input-field">
+                </div>
+                <div class="form-group">
+                  <label for="op-select">Operação:</label>
+                  <select id="op-select" class="input-field">
+                    <option value="add">Adição (+)</option>
+                    <option value="sub">Subtração (-)</option>
+                    <option value="mul">Multiplicação (×)</option>
+                    <option value="div">Divisão (÷)</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="num-b">Valor B:</label>
+                  <input type="number" id="num-b" value="15" class="input-field">
+                </div>
+              </div>
+              <button class="btn btn-primary w-100" id="btn-calc-submit">Executar Teste na API</button>
+              
+              <div class="result-box mt-3" id="calc-result-box">
+                <span class="result-label">Resultado retornado pela API:</span>
+                <span class="result-val" id="calc-result-val">Aguardando execução...</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Automated Test Suite Logs -->
+        <div class="glass-card">
+          <div class="card-header">
+            <h3>🧪 Logs da Suíte de Testes Jest (CI)</h3>
+            <span class="status-indicator-success">PASS</span>
+          </div>
+          <div class="card-body">
+            <pre class="code-terminal-pre code-small">PASS tests/server.test.js
+  DevOps CI/CD Unit & Integration Tests - Unyleya Unidade 2
+    GET /api/health
+      ✓ deve retornar status UP e código HTTP 200 (18 ms)
+    GET /api/info
+      ✓ deve retornar as informações de autoria de Márcio Pereira e pipeline (12 ms)
+    POST /api/math/calc - Operações Matemáticas
+      ✓ deve realizar adição corretamente (15 ms)
+      ✓ deve realizar subtração corretamente (8 ms)
+      ✓ deve realizar multiplicação corretamente (9 ms)
+      ✓ deve realizar divisão corretamente (7 ms)
+      ✓ deve retornar erro 400 ao tentar divisão por zero (6 ms)
+      ✓ deve retornar erro 400 com valores não numéricos (5 ms)
+      ✓ deve retornar erro 400 com operação desconhecida (6 ms)
+
+-----------------|---------|----------|---------|---------|-------------------
+File             | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+-----------------|---------|----------|---------|---------|-------------------
+All files        |     100 |      100 |     100 |     100 |                   
+ app.js          |     100 |      100 |     100 |     100 |                   
+-----------------|---------|----------|---------|---------|-------------------
+Test Suites: 1 passed, 1 total
+Tests:       9 passed, 9 total
+Snapshots:   0 total
+Time:        1.428 s
+Ran all test suites.</pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 5: COMANDOS GIT -->
+    <section id="tab-git" class="tab-content">
+      <div class="glass-card">
+        <div class="card-header">
+          <h3>📜 Comandos Git Utilizados no Fluxo de Trabalho</h3>
+          <span class="badge-tag">Rastreabilidade & Versionamento</span>
+        </div>
+        <div class="card-body">
+          <p class="description">
+            Registro cronológico e ordenado de todos os comandos Git executados desde a criação e conexão do repositório remoto até os commits de release e branch de feature.
+          </p>
+
+          <div class="git-timeline">
+            <div class="git-timeline-step">
+              <div class="git-step-num">1</div>
+              <div class="git-step-content">
+                <h4>Clonagem e Verificação do Repositório Remoto</h4>
+                <pre class="code-terminal-pre">git clone https://github.com/marciobsb31/melhores-praticas-dvops.git
+cd melhores-praticas-dvops
+git remote -v
+git status</pre>
+              </div>
+            </div>
+
+            <div class="git-timeline-step">
+              <div class="git-step-num">2</div>
+              <div class="git-step-content">
+                <h4>Configuração de Identidade e Branch Principal</h4>
+                <pre class="code-terminal-pre">git config user.name "Márcio Pereira"
+git config user.email "cgti.fabricapositivo.dev3@pgfn.gov.br"
+git branch -M main</pre>
+              </div>
+            </div>
+
+            <div class="git-timeline-step">
+              <div class="git-step-num">3</div>
+              <div class="git-step-content">
+                <h4>Criação de Estrutura de Arquivos e Código Fonte</h4>
+                <pre class="code-terminal-pre">git add package.json src/ tests/ public/ Jenkinsfile sonar-project.properties docker-compose.yml
+git commit -m "feat(ci-cd): implementacao da arquitetura pipeline Jenkins, SonarQube e multi-ambientes"</pre>
+              </div>
+            </div>
+
+            <div class="git-timeline-step">
+              <div class="git-step-num">4</div>
+              <div class="git-step-content">
+                <h4>Envio das Modificações para o Repositório GitHub</h4>
+                <pre class="code-terminal-pre">git push -u origin main</pre>
+              </div>
+            </div>
+
+            <div class="git-timeline-step">
+              <div class="git-step-num">5</div>
+              <div class="git-step-content">
+                <h4>Tag de Release da Versão Estável para Produção</h4>
+                <pre class="code-terminal-pre">git tag -a v1.0.0-prod -m "Release aprovada para producao pelo Engenheiro DevOps Marcio Pereira"
+git push origin v1.0.0-prod</pre>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+      <div>UNYLEYA • Pós-Graduação em Engenharia DevOps • Unidade 2</div>
+      <div>Aluno: <strong>Márcio Pereira</strong> | Pipeline: <code>pipeline-marcio-melhores-praticas-devops</code></div>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+{
+  "name": "melhores-praticas-devops-unyleya",
+  "version": "1.0.0",
+  "description": "Trabalho Unidade 2 - Engenheiro DevOps Unyleya - CI/CD Jenkins, SonarQube, Git e Deploy Multi-Ambiente",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "NODE_ENV=development PORT=3000 node src/server.js",
+    "prod": "NODE_ENV=production PORT=3001 node src/server.js",
+    "test": "jest --detectOpenHandles --forceExit",
+    "test:coverage": "jest --coverage --detectOpenHandles --forceExit"
+  },
+  "keywords": [
+    "devops",
+    "ci-cd",
+    "jenkins",
+    "sonarqube",
+    "unyleya",
+    "docker",
+    "git"
+  ],
+  "author": "Márcio Pereira <marcioeb.sistemas@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "supertest": "^7.0.0"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coverageDirectory": "coverage",
+    "collectCoverageFrom": [
+      "src/**/*.js",
+      "!src/server.js"
+    ],
+    "coverageReporters": [
+      "text",
+      "lcov",
+      "clover"
+    ]
+  }
+}

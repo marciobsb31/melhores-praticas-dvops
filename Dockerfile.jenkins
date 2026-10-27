@@ -1,0 +1,23 @@
+FROM jenkins/jenkins:lts
+
+USER root
+
+# Instala dependências essenciais de CI: curl, git, nodejs, npm
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    curl \
+    git \
+    nodejs \
+    npm \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copia e instala plugins de Pipeline e SonarQube
+COPY jenkins-config/plugins.txt /usr/share/jenkins/ref/plugins.txt
+RUN jenkins-plugin-cli -f /usr/share/jenkins/ref/plugins.txt --latest true
+
+# Copia scripts de automação (criação de usuário 'marcio' e pipeline)
+COPY jenkins-config/init.groovy.d/ /usr/share/jenkins/ref/init.groovy.d/
+
+# Desabilita wizard interativo para inicialização direta
+ENV JAVA_OPTS="-Djenkins.install.runSetupWizard=false"
+
+USER jenkins
