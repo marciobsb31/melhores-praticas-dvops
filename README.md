@@ -220,10 +220,11 @@ pipeline {
    ```
 
 3. **Acessar as Aplicações e Serviços**:
-   - **Jenkins CI/CD**: [http://localhost:8080](http://localhost:8080) (Usuário: `marcio` | Senha: `admin123`)
+   - **Jenkins CI/CD**: [http://localhost:8090](http://localhost:8090) (Usuário: `marcio` | Senha: `admin123`)
    - **SonarQube Server**: [http://localhost:9000](http://localhost:9000)
    - **Web App Desenvolvimento (DEV)**: [http://localhost:3000](http://localhost:3000)
    - **Web App Produção (PRD)**: [http://localhost:3001](http://localhost:3001)
+
 
 4. **Executar Testes Unitários Localmente**:
    ```bash

@@ -56,7 +56,7 @@ services:
     container_name: jenkins-marcio
     restart: unless-stopped
     ports:
-      - "8080:8080"
+      - "8090:8080"
       - "50000:50000"
     environment:
       - JENKINS_OPTS="--prefix="
