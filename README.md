@@ -14,10 +14,12 @@
 ### **Pós-Graduação em Engenharia DevOps**
 ### **Unidade 2 • Automação de CI/CD com Jenkins, Hudson, SonarQube e Git**
 
-**Aluno:** Márcio Pereira  
+**Aluno:** Márcio Pereira da Silva  
+**CPF:** 000.124.821-96  
 **Email:** `cgti.fabricapositivo.dev3@pgfn.gov.br`  
 **Repositório Oficial:** [github.com/marciobsb31/melhores-praticas-dvops](https://github.com/marciobsb31/melhores-praticas-dvops)  
 **Nome da Pipeline Jenkins:** `pipeline-marcio-melhores-praticas-devops`
+
 
 </div>
 

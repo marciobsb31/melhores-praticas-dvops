@@ -2,7 +2,8 @@
 
 **Curso:** Pós-Graduação em Engenheiro DevOps  
 **Disciplina / Unidade:** Unidade 2 - Ferramentas de CI/CD (Jenkins e Hudson), Git e SonarQube  
-**Aluno:** Márcio Pereira  
+**Aluno:** Márcio Pereira da Silva  
+**CPF:** 000.124.821-96  
 **Email:** `cgti.fabricapositivo.dev3@pgfn.gov.br`  
 **Repositório Remoto:** [https://github.com/marciobsb31/melhores-praticas-dvops](https://github.com/marciobsb31/melhores-praticas-dvops)  
 

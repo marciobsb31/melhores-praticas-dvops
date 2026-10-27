@@ -11,7 +11,7 @@ app.use(express.static(path.join(__dirname, '..', 'public')));
 // Dados de versão e ambiente
 const APP_METRICS = {
   appName: 'DevOps Portal - Unyleya Unidade 2',
-  author: 'Márcio Pereira',
+  author: 'Márcio Pereira da Silva',
   githubRepo: 'https://github.com/marciobsb31/melhores-praticas-dvops',
   course: 'Pós-Graduação em Engenheiro DevOps - Unyleya',
   unit: 'Unidade 2 - CI/CD Jenkins & SonarQube',

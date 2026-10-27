@@ -15,10 +15,10 @@ describe('DevOps CI/CD Unit & Integration Tests - Unyleya Unidade 2', () => {
   });
 
   describe('GET /api/info', () => {
-    it('deve retornar as informações de autoria de Márcio Pereira e pipeline', async () => {
+    it('deve retornar as informações de autoria de Márcio Pereira da Silva e pipeline', async () => {
       const response = await request(app).get('/api/info');
       expect(response.status).toBe(200);
-      expect(response.body.author).toBe('Márcio Pereira');
+      expect(response.body.author).toBe('Márcio Pereira da Silva');
       expect(response.body.githubRepo).toBe('https://github.com/marciobsb31/melhores-praticas-dvops');
       expect(response.body.pipelineName).toBe('pipeline-marcio-melhores-praticas-devops');
       expect(response.body).toHaveProperty('qualityGate');

@@ -8,7 +8,9 @@
 - **Curso:** Pós-Graduação *Lato Sensu* em Engenharia DevOps  
 - **Disciplina:** Ferramentas de CI/CD (Jenkins e Hudson)  
 - **Atividade:** Trabalho Prático da Unidade 2  
-- **Aluno:** Márcio Pereira  
+- **Aluno:** Márcio Pereira da Silva  
+- **CPF:** 000.124.821-96  
+- **Identidade Militar:** 1108324474 (EB - CIM)  
 - **Email:** `cgti.fabricapositivo.dev3@pgfn.gov.br`  
 - **Repositório GitHub Oficial:** [https://github.com/marciobsb31/melhores-praticas-dvops](https://github.com/marciobsb31/melhores-praticas-dvops)  
 - **Nome Oficial da Pipeline:** `pipeline-marcio-melhores-praticas-devops`  
